@@ -1,4 +1,4 @@
-# WarsawJS Slides: Template
+# Vue.js - great mix of React and Angular [PL]
 
 ![Logo](./vendors/shower-warsawjs/images/logo-white-400x400.jpg)
 
