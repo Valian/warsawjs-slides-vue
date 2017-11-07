@@ -17,9 +17,28 @@
     <link rel="stylesheet" href="vendors/prism/prism.css"/>
     <link rel="stylesheet" href="modules/custom-prism.css"/>
 
+    <script src="https://unpkg.com/vue"></script>
+
     <style>
         .center {
             text-align: center;
+        }
+
+        .demo {
+            border: 1px solid #eee;
+            border-radius: 2px;
+            padding: 25px 35px;
+        }
+
+        .demo > .data {
+            background-color: rgba(255, 239, 128, 0.26);
+            border-top: 1px solid #eee;
+            border-radius: 2px;
+            margin: 20px -35px -25px -35px;
+            white-space: pre;
+            padding: 5px 35px;
+            color: #ff8e00;
+            font-size: 0.8em;
         }
     </style>
 </head>
@@ -102,36 +121,186 @@
         <h2>I had to prepare a simple dashboard</h2>
         <p>Quite standard requirements: API calls, pagination, filters</p>
         <p>I wanted to do it in the most simple way (no jQuery), and learn something</p>
-        <p>I've heard Vue is gaining popularity, why not to try it?</p>
+        <p>I've heard Vue is gaining traction, why not to try it?</p>
     </section>
 
-    <section class="slide">
+    <section class="slide compact">
         <h2>First impressions</h2>
-        <blockquote>
-            <p>Great documentation!</p>
-        </blockquote>
-        <p class="next">Documentation is everything you will need to start.</p>
+        <p class="next"><strong>That documentation is great!</strong></p>
+        <p class="next"><strong>Syntax is really simple!</strong></p>
+        <p class="next"><strong>It works!</strong></p>
+    </section>
+
+    <section class="slide compact">
+        <h2>Outcome</h2>
+        <p>Frontend part implemented using Vue and Bulma in just one HTML file</p>
+        <p>Done in 2h since first look to documentation</p>
+        <p>Very clean, readable code</p>
+        <p>Final impression - it was so simple! Let's try something bigger</p>
+    </section>
+
+    <section class="slide compact">
+        <h2>Outcome</h2>
+        <p>Frontend part implemented using Vue and Bulma in just one HTML file</p>
+        <p>Done in 2h since first look to documentation</p>
+        <p>Very clean, readable code</p>
+        <p>Final impression - it was so simple! Let's try something bigger</p>
     </section>
 
     <section class="slide">
-        <h2>First impressions</h2>
-        <blockquote>
-            <p>It's just ...<strong>simple</strong></p>
-        </blockquote>
+        <h2>Hello world image</h2>
     </section>
 
-    <section class="slide">
-        <h2>Quotes</h2>
-        <blockquote>
-            <p>Flannel bicycle rights locavore selfies skateboard. Authentic fanny pack paleo four loko bespoke. Artisan tattooed chia XOXO ennui, lomo disrupt 8-bit art party Tumblr scenester.</p>
-        </blockquote>
-        <figure>
-            <blockquote>
-                <p>Post-ironic fashion axe flexitarian, Tonx narwhal messenger bag Tumblr. Portland gentrify deep v kale chips literally.</p>
-            </blockquote>
-            <figcaption>Yours Truly</figcaption>
-        </figure>
+    <section class="slide prism compact">
+        <h2>Hello world</h2>
+        <pre class="language-html">
+            <code>
+                &lt;script src="https://unpkg.com/vue">&lt;/script>
+                &lt;div id="app">
+                    {{ message }}
+                &lt;/div>
+            </code>
+        </pre>
+        <pre class="language-javascript">
+            <code>
+                var app = new Vue({
+                  el: '#app',
+                  data: { message: 'Hello Vue!' }
+                })
+            </code>
+        </pre>
     </section>
+
+    <section class="slide prism compact">
+        <h2>Hello world output</h2>
+        <div id="hello-world1" class="demo">
+            {{ message }}
+            <vue-data :data="$data" :tabs="true"></vue-data>
+        </div>
+        <script>
+            var DataComponent = {
+              // The todo-item component now accepts a
+              // "prop", which is like a custom attribute.
+              // This prop is called todo.
+              props: ['data', 'tabs'],
+              template: '<pre class="data">{{ JSON.stringify(data, null, tabs && "\t") }}</pre>'
+            }
+            Vue.component('vue-data', DataComponent)
+            new Vue({
+                el: '#hello-world1',
+                data: {
+                  message: 'Hello Vue!'
+                }
+            })
+        </script>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Give me more!</h2>
+        <pre class="language-html">
+            <code>
+                &lt;div id="app">
+                    {{ message }}
+                &lt;/div>
+            </code>
+        </pre>
+        <pre class="language-javascript">
+            <code>
+                var app = new Vue({
+                  el: '#app',
+                  data: { message: 'Hello Vue!' }
+                })
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Methods and handlers</h2>
+        <div id="hello-world2" class="demo">
+            Hello {{ name }}!
+            <button @click="modify">Where I am?</button>
+            <vue-data :data="$data" :tabs="true"></vue-data>
+        </div>
+        <script>
+          new Vue({
+            el: '#hello-world2',
+            data: {
+              name: 'Vue'
+            },
+            methods: {
+              modify: function() {
+                this.name = 'WarsawJS'
+              }
+            }
+          })
+        </script>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-model and computed data</h2>
+        <div id="hello-world3" class="demo">
+            Hello {{ showedName }}! <span v-if="!name">I don't know you :(</span>
+            <hr>
+            Who are you?
+            <input v-model="name">
+            <vue-data :data="$data" :tabs="true"></vue-data>
+        </div>
+        <script>
+          new Vue({
+            el: '#hello-world3',
+            data: {
+              name: ''
+            },
+            computed: {
+              showedName: function() {
+                return this.name || 'Dude'
+              }
+            }
+          })
+        </script>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-for and filter</h2>
+        <div id="hello-world5" class="demo">
+            Describe WarsawJS
+            <br>
+            <input v-model="entry">
+            <button @click="addEntry">Submit</button>
+            <hr>
+            WarsawJS is...
+            <div v-if="entries">
+                <ul>
+                    <li v-for="entry in entries">
+                        {{ entry | shout }}
+                    </li>
+                </ul>
+            </div>
+            <vue-data :data="$data"></vue-data>
+        </div>
+        <script>
+          new Vue({
+            el: '#hello-world5',
+            data: {
+              entries: []
+            },
+            methods: {
+              addEntry: function () {
+                this.entries.push(this.entry)
+                this.entry = '';
+              }
+            },
+            filters: {
+              shout: function(value) {
+                return value + '!';
+              }
+            }
+          })
+        </script>
+    </section>
+
+
+
 
     <section class="slide compact">
         <h2>Nested Lists</h2>
