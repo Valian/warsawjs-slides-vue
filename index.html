@@ -27,18 +27,35 @@
         .demo {
             border: 1px solid #eee;
             border-radius: 2px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .demo > .main {
             padding: 25px 35px;
+            flex: 1;
+        }
+
+        .vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .vertical > * {
+            margin: 8px 0;
         }
 
         .demo > .data {
-            background-color: rgba(255, 239, 128, 0.26);
-            border-top: 1px solid #eee;
-            border-radius: 2px;
-            margin: 20px -35px -25px -35px;
+            background-color: #f5f2f0;
+            border-left: 1px solid #eee;
             white-space: pre;
-            padding: 5px 35px;
-            color: #ff8e00;
+            color: #02063f;
+            padding: 10px 10px;
             font-size: 0.8em;
+            margin-bottom: 0;
+            width: 300px;
         }
     </style>
 </head>
@@ -58,16 +75,13 @@
             <img src="pictures/avatar.jpg" alt="Speaker"/>
 
             <!-- 2. Speaker -->
-            <h2>Jakub Skałecki</h2>
+            <h2>Jakub Skałecki <a href="http://twitter.com/@jskalc">@jskalc</a></h2>
 
             <!-- 3. Presentation title -->
             <h2><strong>Vue.js - great mix of React and Angular [PL]</strong></h2>
 
             <!-- 4. Presentation date -->
             <h2>2017-10-08</h2>
-
-            <!-- 5. Contact the speaker -->
-            <h2><a href="http://twitter.com/@jskalc">@jskalc</a></h2>
         </div>
     </section>
 
@@ -94,7 +108,7 @@
             <li>Only Angular.js (Angular 1)</li>
             <li class="next">Very steep learning curve, complicated</li>
             <li class="next">Performance issues (digest cycles)</li>
-            <li class="next">Tried to put logic into HTML</li>
+            <li class="next">Most of work done in templates</li>
             <li class="next">Hard to say how to do things properly on a first try</li>
             <li class="next">Can't be used in a very simple projects</li>
         </ul>
@@ -125,30 +139,40 @@
     </section>
 
     <section class="slide compact">
-        <h2>First impressions</h2>
-        <p class="next"><strong>That documentation is great!</strong></p>
-        <p class="next"><strong>Syntax is really simple!</strong></p>
-        <p class="next"><strong>It works!</strong></p>
+        <h2>Vue - what they say</h2>
+        <p>Learning from the mistakes and successes of React & Angular</p>
+        <p>HTML is HTML, JS is JS, CSS is CSS</p>
+        <p>Progressive web framework</p>
+        <p>Never stands in your way</p>
+        <p>Right amount of Magic</p>
+    </section>
+
+    <section class="slide compact">
+        <h2 class="shout">First impressions?</h2>
+    </section>
+
+    <section class="slide compact">
+        <h2 class="shout shrink">Documentation is great!</h2>
+    </section>
+
+    <section class="slide compact">
+        <h2 class="shout shrink">Syntax is simple!</h2>
+    </section>
+
+    <section class="slide compact">
+        <h2 class="shout shrink">It just works!</h2>
     </section>
 
     <section class="slide compact">
         <h2>Outcome</h2>
         <p>Frontend part implemented using Vue and Bulma in just one HTML file</p>
-        <p>Done in 2h since first look to documentation</p>
-        <p>Very clean, readable code</p>
-        <p>Final impression - it was so simple! Let's try something bigger</p>
-    </section>
-
-    <section class="slide compact">
-        <h2>Outcome</h2>
-        <p>Frontend part implemented using Vue and Bulma in just one HTML file</p>
-        <p>Done in 2h since first look to documentation</p>
+        <p>Done in 4h since first look to documentation</p>
         <p>Very clean, readable code</p>
         <p>Final impression - it was so simple! Let's try something bigger</p>
     </section>
 
     <section class="slide">
-        <h2>Hello world image</h2>
+        <h2 class="shout">Examples</h2>
     </section>
 
     <section class="slide prism compact">
@@ -174,7 +198,7 @@
     <section class="slide prism compact">
         <h2>Hello world output</h2>
         <div id="hello-world1" class="demo">
-            {{ message }}
+            <div class="main">{{ message }}</div>
             <vue-data :data="$data" :tabs="true"></vue-data>
         </div>
         <script>
@@ -182,8 +206,8 @@
               // The todo-item component now accepts a
               // "prop", which is like a custom attribute.
               // This prop is called todo.
-              props: ['data', 'tabs'],
-              template: '<pre class="data">{{ JSON.stringify(data, null, tabs && "\t") }}</pre>'
+              props: ['data'],
+              template: '<pre class="data">$data: {{ JSON.stringify(data, null, "  ") }}</pre>'
             }
             Vue.component('vue-data', DataComponent)
             new Vue({
@@ -196,19 +220,29 @@
     </section>
 
     <section class="slide prism compact">
-        <h2>Give me more!</h2>
+        <h2>Methods and handlers</h2>
         <pre class="language-html">
             <code>
                 &lt;div id="app">
-                    {{ message }}
+                    Hello {{ name }}!
+                    &lt;button @click="modify">Where I am?&lt;/button>
                 &lt;/div>
             </code>
         </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Methods and handlers</h2>
         <pre class="language-javascript">
             <code>
-                var app = new Vue({
-                  el: '#app',
-                  data: { message: 'Hello Vue!' }
+                new Vue({
+                    el: "#app",
+                    data: { name: 'Vue' },
+                    methods: {
+                        modify: function() {
+                            this.name = 'WarsawJS'
+                        }
+                    }
                 })
             </code>
         </pre>
@@ -217,8 +251,9 @@
     <section class="slide prism compact">
         <h2>Methods and handlers</h2>
         <div id="hello-world2" class="demo">
-            Hello {{ name }}!
-            <button @click="modify">Where I am?</button>
+            <div class="main center vertical">Hello {{ name }}!
+                <button @click="modify">Where I am?</button>
+            </div>
             <vue-data :data="$data" :tabs="true"></vue-data>
         </div>
         <script>
@@ -237,12 +272,17 @@
     </section>
 
     <section class="slide prism compact">
-        <h2>v-model and computed data</h2>
+        <h2>v-model and v-if</h2>
         <div id="hello-world3" class="demo">
-            Hello {{ showedName }}! <span v-if="!name">I don't know you :(</span>
-            <hr>
-            Who are you?
-            <input v-model="name">
+            <div class="main center vertical">
+                <div v-if="name">
+                    Hello {{ name }}!
+                </div>
+                <div v-else>
+                    Who are you?
+                </div>
+                <input v-model="name" placeholder="name">
+            </div>
             <vue-data :data="$data" :tabs="true"></vue-data>
         </div>
         <script>
@@ -250,31 +290,24 @@
             el: '#hello-world3',
             data: {
               name: ''
-            },
-            computed: {
-              showedName: function() {
-                return this.name || 'Dude'
-              }
             }
           })
         </script>
     </section>
 
     <section class="slide prism compact">
-        <h2>v-for and filter</h2>
+        <h2>v-for, computed data and filter</h2>
         <div id="hello-world5" class="demo">
-            Describe WarsawJS
-            <br>
-            <input v-model="entry">
-            <button @click="addEntry">Submit</button>
-            <hr>
-            WarsawJS is...
-            <div v-if="entries">
-                <ul>
-                    <li v-for="entry in entries">
-                        {{ entry | shout }}
-                    </li>
-                </ul>
+            <div class="main center vertical">
+                Describe WarsawJS
+                <input v-model="entry" @keyup.enter="addEntry" placeholder="Your opinion...">
+                <div v-if="filteredEntries">
+                    <ul>
+                        <li v-for="e in filteredEntries">
+                            {{ e }}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <vue-data :data="$data"></vue-data>
         </div>
@@ -290,210 +323,328 @@
                 this.entry = '';
               }
             },
+            computed: {
+              filteredEntries: function () {
+                var bad = ['bad', 'weak', 'boring']
+                return this.entries.filter(function(entry) {
+                  return bad.indexOf(entry.toLowerCase()) === -1
+                })
+              }
+            },
             filters: {
               shout: function(value) {
-                return value + '!';
+                return 'They said "' + value + '"!';
               }
             }
           })
         </script>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <section class="slide prism compact">
+        <h2>watch - api call example</h2>
+        <div id="hello-world6" class="demo">
+            <div class="main center vertical">
+                <img src="https://vignette.wikia.nocookie.net/disney/images/8/8b/Starwars-logo.png/revision/latest?cb=20141129122237" width="200">
+                <input v-model="query" placeholder="Search...">
+                <div v-if="searching">Searching...</div>
+                <div v-else-if="people.length > 0" class="results">
+                    <div v-for="person in people">
+                        {{ person }}
+                    </div>
+                </div>
+                <div v-else>No records found</div>
+            </div>
+            <vue-data :data="$data"></vue-data>
+        </div>
+        <script>
+          new Vue({
+            el: '#hello-world6',
+            data: {
+              query: '',
+              searching: false,
+              people: []
+            },
+            methods: {
+              search: function (query) {
+                var that = this;
+                this.searching = true;
+                axios.get('https://swapi.co/api/people/', {params: {search: query}})
+                  .then(function(response) {
+                    that.people = response.data.results.slice(0, 5).map(function(person) {
+                      return person.name
+                    })
+                    that.searching = false;
+                  })
+              }
+            },
+            watch: {
+              query: _.debounce(function(value) {
+                this.search(value)
+              }, 500)
+            }
+          })
+        </script>
+    </section>
 
+    <section class="slide prism compact">
+        <h2>Components - creation</h2>
+        <pre class="language-javascript">
+            <code>
+                Vue.component('vue-data', {
+                  props: ['data'],
+                  template: '&lt;pre class="data">' +
+                            '  $data: {{ JSON.stringify(data) }}' +
+                            '&lt;/pre>'
+                })
+            </code>
+        </pre>
+    </section>
 
+    <section class="slide prism compact">
+        <h2>Components - usage</h2>
+        <pre class="language-html">
+            <code>
+                &lt;vue-data :data="$data">&lt;/vue-data>
+            </code>
+        </pre>
+        <p class="next">
+            There are also "slots"
+        </p>
+        <pre class="language-html next">
+            <code>
+                &lt;template>&lt;slot name="content">Placeholder&lt;/slot>&lt;/template>
+                &lt;component>
+                    &lt;h1 slot="content">Important content&lt;/h1>
+                &lt;/component>
+            </code>
+        </pre>
+    </section>
 
     <section class="slide compact">
-        <h2>Nested Lists</h2>
+        <h2>Single File Components</h2>
+        <ul>
+            <li>Creating components as strings is not fun </li>
+            <li class="next">SFC has *.vue extension</li>
+            <li class="next">Requires babel and vue-loader to work</li>
+            <li class="next">HTML, JS and CSS in one file</li>
+            <li class="next">Vastly reduces mental overhead, less files to look at</li>
+            <li class="next">One of the greatest ideas in the Vue</li>
+        </ul>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Single File Components example</h2>
+        <pre class="language-html">
+            <code>
+                &lt;template>
+                    &lt;div class="hello">{{ msg }}&lt;/div>
+                &lt;/template>
+                &lt;script>
+                    export default {
+                        data: () => ({ msg: "Hello, components!" })
+                    }
+                &lt;/script>
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Single File Components example</h2>
+        <pre class="language-html">
+            <code>
+                &lt;style language="scss" scoped>
+                    div {
+                        color: red;
+                        .hello {
+                            font-size: 2em;
+                        }
+                    }
+                &lt;/style>
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Single File Components usage</h2>
+        <pre class="language-html">
+            <code>
+                &lt;template>
+                    &lt;component>{{ msg }}&lt;/component>
+                &lt;/template>
+                &lt;script>
+                    import Component from './component.vue'
+                    export default {
+                        components: { Component }
+                    }
+                &lt;/script>
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide compact">
+        <h2>Parent - child communication</h2>
+        <p>React - usually passing function as a prop</p>
+        <p>Angular - $emit() + $on() with scopes</p>
+        <p>Vue - $emit() + v-on:event="", only direct children</p>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Parent - child communication example</h2>
+        Child
+        <pre class="language-html">
+            <code>
+                &lt;button @click="#emit('clicked')">Submit&lt;/button>
+            </code>
+        </pre>
+        Parent
+        <pre class="language-html">
+            <code>
+                &lt;child @clicked="alert('yay')">&lt;/child>
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>Parent - child communication example</h2>
+        Child
+        <pre class="language-html">
+            <code>
+                &lt;button @click="#emit('clicked', 'Hello')">Submit&lt;/button>
+            </code>
+        </pre>
+        Parent
+        <pre class="language-html">
+            <code>
+                    &lt;child @clicked="alert($event)">&lt;/child>
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide compact">
+        <h2>Reactivity</h2>
+        <p>How Vue works under the hood?</p>
+        <ul>
+            <li>All data objects are converted into properties</li>
+            <li class="next">Each property is watched over for changes</li>
+            <li class="next">When change occur, dependencies (HTML, computed) are updated</li>
+            <li class="next">Templates are translated into render functions</li>
+            <li class="next">Utilizes virtual DOM for performance</li>
+        </ul>
+    </section>
+
+    <section class="slide compact">
+        <h2>Taken from React</h2>
+        <p>Utilizes a virtual DOM</p>
+        <p>Provides reactive and composable view components</p>
+        <p>Lightweight, no batteries included</p>
+    </section>
+
+    <section class="slide compact">
+        <h2>Taken from Angular</h2>
+        <p>Beautiful, readable HTML additions</p>
+    </section>
+
+    <section class="slide">
+        <h2 class="shout">Ecosystem</h2>
+    </section>
+
+    <section class="slide compact">
+        <h2>Ecosystem</h2>
+        <ul>
+            <li>LOTS of similarities to React</li>
+            <li>create-react-app <--> vue-cli</li>
+            <li>Redux <--> Vuex</li>
+            <li>Next  <--> Nuxt</li>
+            <li>React Native <--> Weex</li>
+            <li>React Router  <--> Vue Router</li>
+            <li>React Dev Tools  <--> Vue Dev Tools</li>
+        </ul>
+    </section>
+
+    <section class="slide compact">
+        <h2>Modern features</h2>
+        <ul>
+            <li>Webpack + HOT Reload</li>
+            <li>Server Side Rendering</li>
+            <li>Type Script support</li>
+            <li>Super easy tree-shaking</li>
+        </ul>
+    </section>
+
+    <section class="slide compact">
+        <h2>Rising stars 2016 winner</h2>
+        <img src="pictures/rising-stars.png" height="400px">
+    </section>
+
+    <section class="slide compact">
+        <h2>Github stars</h2>
         <ol>
-            <li>Literally viral vegan, ugh drinking vinegar photo booth</li>
-            <li>Wes Anderson chillwave Marfa pour-over Etsy banh mi</li>
-            <li>Ethnic polaroid lo-fi iPhone ennui
-                <ul>
-                    <li>Yr wayfarers before they sold out Kickstarter asymmetrical</li>
-                    <li>Irony flexitarian readymade quinoa, kogi bespoke meggings narwhal</li>
-                    <li>Skateboard Etsy twee artisan Echo Park</li>
-                </ul>
-            </li>
-            <li>Tonx kitsch fingerstache readymade, retro single-origin coffee</li>
+          <li>React - 80,432</li>
+          <li>Vue - 72,965</li>
+          <li>AngularJS - 57,466</li>
+          <li>Angular - 29,731</li>
         </ol>
     </section>
 
     <section class="slide compact">
-        <h2>Simple Table</h2>
-        <table>
-            <tr>
-                <th scope="col">Gentrify</th>
-                <th>Twee</th>
-                <th>Artisan</th>
-                <th>Banksy</th>
-            </tr>
-            <tr>
-                <th scope="row">Messenger</th>
-                <td>Mixtape</td>
-                <td>Small batch</td>
-                <td>Bicycle rights</td>
-            </tr>
-            <tr>
-                <th scope="row">Meggings</th>
-                <td>Freegan</td>
-                <td>Retro biodiesel</td>
-                <td>Slow-carb</td>
-            </tr>
-            <tr>
-                <th scope="row">Vegan</th>
-                <td>Occupy</td>
-                <td>Normcore</td>
-                <td>Put a bird on it</td>
-            </tr>
-            <tr>
-                <th scope="row">Next level</th>
-                <td>Selfies</td>
-                <td>Sustainable</td>
-                <td>Organic</td>
-            </tr>
-            <tr>
-                <th scope="row">Umami</th>
-                <td>Asymmetrical</td>
-                <td>Keytar</td>
-                <td>Craft beer</td>
-            </tr>
-            <tr>
-                <th scope="row">Biodiesel</th>
-                <td>Haven’t heard</td>
-                <td>Skateboard</td>
-                <td>Farm-to-table</td>
-            </tr>
-        </table>
-    </section>
-
-    <section class="slide compact">
-        <h2>Striped Table</h2>
-        <table class="striped">
-            <tr>
-                <th scope="col">Gentrify</th>
-                <th>Twee</th>
-                <th>Artisan</th>
-                <th>Banksy</th>
-            </tr>
-            <tr>
-                <th scope="row">Messenger</th>
-                <td>Mixtape</td>
-                <td>Small batch</td>
-                <td>Bicycle rights</td>
-            </tr>
-            <tr>
-                <th scope="row">Meggings</th>
-                <td>Freegan</td>
-                <td>Retro biodiesel</td>
-                <td>Slow-carb</td>
-            </tr>
-            <tr>
-                <th scope="row">Vegan</th>
-                <td>Occupy</td>
-                <td>Normcore</td>
-                <td>Put a bird on it</td>
-            </tr>
-            <tr>
-                <th scope="row">Next level</th>
-                <td>Selfies</td>
-                <td>Sustainable</td>
-                <td>Organic</td>
-            </tr>
-            <tr>
-                <th scope="row">Umami</th>
-                <td>Asymmetrical</td>
-                <td>Keytar</td>
-                <td>Craft beer</td>
-            </tr>
-            <tr>
-                <th scope="row">Biodiesel</th>
-                <td>Haven’t heard</td>
-                <td>Skateboard</td>
-                <td>Farm-to-table</td>
-            </tr>
-        </table>
-    </section>
-
-    <section class="slide prism">
-        <h2>Listing Slide</h2>
-
-        <pre style="font-size: 45px;" class="language-javascript line-numbers">
-            <code>
-                function wrap(value) {
-                    return function () {
-                        return value;
-                    }
-                }
-
-                function bind(monad, f) {
-                    return f(monad());
-                }
-            </code>
-        </pre>
-    </section>
-
-    <section class="slide prism">
-        <pre style="font-size: 30px;" class="language-javascript line-numbers">
-            <code>
-                var monad = wrap('cookie');
-                bind(monad, (value) => {
-                    console.info(value);
-                    return wrap(value);
-                });
-                monad = bind(monad, (value) => {
-                    return wrap({ type: value });
-                });
-                bind(monad, (value) => {
-                    console.log(value);
-                    return wrap(value);
-                });
-            </code>
-        </pre>
+        <h2 class="shout">Common objections</h2>
     </section>
 
     <section class="slide">
-        <h2 class="shout"><a href="">Linked</a> Shout</h2>
-    </section>
-
-    <section class="slide">
-        <h2 class="shout grow">Effect: Growing Shout</h2>
-    </section>
-
-    <section class="slide">
-        <h2 class="shout shrink">Effect: Shrinking Shout</h2>
-    </section>
-
-    <section class="slide">
+        <h2>One man project</h2>
         <figure>
-            <img class="cover" src="vendors/shower-ribbon/pictures/exact.png" alt="">
-            <figcaption class="white">Copyright © 2016 <a href="">Yours Truly</a>, Famous Inc.</figcaption>
+            <blockquote>
+                <p>
+                    It (Vue.js) has also grown from “yet another side project”
+                    into an ecosystem with over 300 contributors across the Vue.js
+                    organization,and maintained by a core team of over 20 active members across the globe
+                </p>
+            </blockquote>
+            <figcaption>Evan You, the creator of Vue.js</figcaption>
         </figure>
     </section>
 
     <section class="slide">
-        <img class="cover" src="vendors/shower-ribbon/pictures/tall.png" alt="">
+        <h2>Scalability</h2>
+        <figure>
+            <blockquote>
+                <p>
+                    Vue is built on the component-based model for UI development
+                    which is a proven pattern shared among all major frameworks,
+                    with solid official solutions for SPA routing and large-scale state management.
+                    It is designed for approachability, but is also designed with scale in
+                    mind.
+                </p>
+            </blockquote>
+            <figcaption>Evan You, the creator of Vue.js</figcaption>
+        </figure>
+    </section>
+
+    <section class="slide compact">
+        <h2>Never heard of a big company using Vue</h2>
+        <ul>
+            <li>Alibaba</li>
+            <li>Gitlab</li>
+            <li>Chess.com</li>
+            <li>Codeship</li>
+            <li>Laravel</li>
+            <li>Monterail</li>
+            <li class="next">Many more...</li>
+        </ul>
+    </section>
+
+    <section class="slide compact">
+        <h2 class="shout grow">VueJS workshops 19.11.2017</h2>
     </section>
 
     <section class="slide">
-        <img class="cover" src="vendors/shower-ribbon/pictures/wide.png" alt="">
+        <h3 class="shout">Thank you!</h3>
     </section>
 
-    <section class="slide white">
-        <img class="place top left" src="vendors/shower-ribbon/pictures/square.png" alt="">
-        <img class="place top" src="vendors/shower-ribbon/pictures/square.png" alt="">
-        <img class="place top right" src="vendors/shower-ribbon/pictures/square.png" alt="">
-
-        <img class="place left" src="vendors/shower-ribbon/pictures/square.png" alt="">
-        <img class="place" src="vendors/shower-ribbon/pictures/square.png" alt="">
-        <img class="place right" src="vendors/shower-ribbon/pictures/square.png" alt="">
-
-        <img class="place bottom left" src="vendors/shower-ribbon/pictures/square.png" alt="">
-        <img class="place bottom" src="vendors/shower-ribbon/pictures/square.png" alt="">
-        <img class="place bottom right" src="vendors/shower-ribbon/pictures/square.png" alt="">
-    </section>
-
-    <section class="slide" data-timing="00:03">
-        <h3 class="shout">Automatic switch slide after <strong>3 secs</strong> ...</h3>
+    <section class="slide">
+        <h3 class="shout">Questions?</h3>
     </section>
 
     <section class="slide">
