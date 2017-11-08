@@ -495,7 +495,7 @@
         Child
         <pre class="language-html">
             <code>
-                &lt;button @click="#emit('clicked')">Submit&lt;/button>
+                &lt;button @click="$emit('clicked')">Submit&lt;/button>
             </code>
         </pre>
         Parent
@@ -511,7 +511,7 @@
         Child
         <pre class="language-html">
             <code>
-                &lt;button @click="#emit('clicked', 'Hello')">Submit&lt;/button>
+                &lt;button @click="$emit('clicked', 'Hello')">Submit&lt;/button>
             </code>
         </pre>
         Parent
