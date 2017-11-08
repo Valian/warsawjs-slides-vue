@@ -105,12 +105,11 @@
     <section class="slide compact">
         <h2>My experience with Angular</h2>
         <ul>
-            <li>Only Angular.js (Angular 1)</li>
+            <li>Only AngularJS (Angular 1)</li>
             <li class="next">Very steep learning curve, complicated</li>
             <li class="next">Performance issues (digest cycles)</li>
             <li class="next">Most of work done in templates</li>
             <li class="next">Hard to say how to do things properly on a first try</li>
-            <li class="next">Can't be used in a very simple projects</li>
         </ul>
     </section>
 
@@ -135,7 +134,8 @@
         <h2>I had to prepare a simple dashboard</h2>
         <p>Quite standard requirements: API calls, pagination, filters</p>
         <p>I wanted to do it in the most simple way (no jQuery), and learn something</p>
-        <p>I've heard Vue is gaining traction, why not to try it?</p>
+        <p>Internal project, should just work</p>
+        <p class="next">I've heard Vue is gaining traction, why not to try it?</p>
     </section>
 
     <section class="slide compact">
@@ -166,7 +166,7 @@
     <section class="slide compact">
         <h2>Outcome</h2>
         <p>Frontend part implemented using Vue and Bulma in just one HTML file</p>
-        <p>Done in 6h since first look to the documentation</p>
+        <p>Done in 6h since a first look to the documentation</p>
         <p>Very clean, readable code</p>
         <p>Final impression - it was so simple! Let's try something bigger</p>
     </section>
@@ -273,6 +273,50 @@
 
     <section class="slide prism compact">
         <h2>v-model and v-if</h2>
+        <pre class="language-html">
+            <code>
+                &lt;div id="app">
+                    &lt;div v-if="name">
+                        Hello {{ name }}!
+                    &lt;/div>
+                    &lt;div v-else>
+                        Who are you?
+                    &lt;/div>
+                    &lt;input v-model="name" placeholder="name">
+                &lt;/div>
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-model and v-if</h2>
+        <pre class="language-html">
+            <code>
+                &lt;input v-model="name">
+            </code>
+        </pre>
+        <p>is the same as</p>
+        <pre class="language-html">
+            <code>
+                &lt;input v-on:input="name = $event.target.value"
+                       v-bind:value="name">
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-model and v-if</h2>
+        <p>is the same as</p>
+        <pre class="language-html">
+            <code>
+                &lt;input @input="name = $event.target.value"
+                       :value="name">
+            </code>
+        </pre>
+    </section>
+    
+    <section class="slide prism compact">
+        <h2>v-model and v-if</h2>
         <div id="hello-world3" class="demo">
             <div class="main center vertical">
                 <div v-if="name">
@@ -297,16 +341,76 @@
 
     <section class="slide prism compact">
         <h2>v-for, computed data and filter</h2>
+        <pre class="language-javascript">
+            <code>
+                data: {
+                  entries: []
+                },
+                methods: {
+                  addEntry: function () {
+                    this.entries.push(this.entry)
+                    this.entry = '';
+                  }
+                }
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-for, computed data and filter</h2>
+        <pre class="language-javascript">
+            <code>
+                computed: {
+                  filteredEntries: function () {
+                    var bad = ['bad', 'weak', 'boring']
+                    return this.entries.filter(function(entry) {
+                      return bad.indexOf(entry.toLowerCase()) === -1
+                    })
+                  }
+                }
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-for, computed data and filter</h2>
+        <pre class="language-javascript">
+            <code>
+                filters: {
+                  shout: function(value) {
+                    return 'They said "' + value + '"!';
+                  }
+                }
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-for, computed data and filter</h2>
+        <pre class="language-html">
+            <code>
+                &lt;input v-model="entry" @keyup.enter="addEntry">
+                &lt;div v-if="filteredEntries">
+                    &lt;ul>
+                        &lt;li v-for="e in filteredEntries">
+                            {{ e }}
+                        &lt;/li>
+                    &lt;/ul>
+                &lt;/div>
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>v-for, computed data and filter</h2>
         <div id="hello-world5" class="demo">
             <div class="main center vertical">
                 Describe WarsawJS
                 <input v-model="entry" @keyup.enter="addEntry" placeholder="Your opinion...">
                 <div v-if="filteredEntries">
-                    <ul>
-                        <li v-for="e in filteredEntries">
-                            {{ e }}
-                        </li>
-                    </ul>
+                    <div v-for="e in filteredEntries">
+                        {{ e | shout }}
+                    </div>
                 </div>
             </div>
             <vue-data :data="$data"></vue-data>
@@ -333,11 +437,82 @@
             },
             filters: {
               shout: function(value) {
-                return 'They said "' + value + '"!';
+                return 'Someone said "' + value + '"!';
               }
             }
           })
         </script>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>watch - api call example</h2>
+        <pre class="language-javascript">
+            <code>
+                data: {
+                  query: '',
+                  searching: false,
+                  people: []
+                },
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>watch - api call example</h2>
+        <pre class="language-javascript">
+            <code>
+              search: function (query) {
+                this.searching = true;
+                axios.get('https://swapi.co/api/people/', {params: {search: query}})
+                  .then(function(response) {
+                    that.people = response.data.results.map(...);
+                    that.searching = false;
+                  })
+              }
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>watch - api call example</h2>
+        <pre class="language-javascript">
+            <code>
+              watch: {
+                query: function(value) {
+                  this.search(value)
+                })
+              }
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>watch - api call example</h2>
+        <pre class="language-javascript">
+            <code>
+              watch: {
+                query: _.debounce(function(value) {
+                  this.search(value)
+                }, 500)
+              }
+            </code>
+        </pre>
+    </section>
+
+    <section class="slide prism compact">
+        <h2>watch - api call example</h2>
+        <pre class="language-html">
+            <code>
+                &lt;input v-model="query" placeholder="Search...">
+                &lt;div v-if="searching">Searching...&lt;/div>
+                &lt;div v-else-if="people.length > 0">
+                    &lt;div v-for="person in people">
+                        {{ person }}
+                    &lt;/div>
+                &lt;/div>
+                &lt;div v-else>No records found&lt;/div>
+            </code>
+        </pre>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
@@ -517,7 +692,7 @@
         Parent
         <pre class="language-html">
             <code>
-                    &lt;child @clicked="alert($event)">&lt;/child>
+                    &lt;child @clicked="value => alert(value)">&lt;/child>
             </code>
         </pre>
     </section>
